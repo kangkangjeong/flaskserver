@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS #다른 출처끼리의 자원 공유
 import cv2
 import os
@@ -10,8 +10,8 @@ app = Flask(__name__)
 CORS(app)
 
 @app.route('/')
-def hello():
-    return 'Hello, World!'
+def index():
+    return render_template('index.html')
 
 @app.route('/gpt_recommend', methods=['POST'])
 def execute_gpt_crawling():
@@ -51,4 +51,4 @@ def process_image():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=5000,debug=True)

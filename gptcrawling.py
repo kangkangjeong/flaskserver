@@ -4,7 +4,7 @@ import json
 
 def get_chatgpt_msg(msg):
     # OpenAI API 인증을 위한 키 설정
-    openai.api_key = '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'
+    openai.api_key = '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'
 
     # ChatGPT 모델에 대한 요청 생성
     response = openai.Completion.create(
@@ -34,7 +34,7 @@ def extract_recommendations(reply):
     chrome_options = Options()
     chrome_options.add_argument('--headless')
     # Chrome WebDriver를 사용하여 웹 브라우저 열기
-    driver = webdriver.Chrome(options=chrome_options)
+    driver = webdriver.Chrome(service=chrome_service,options=chrome_options)
 
     # 구글 이미지 검색 페이지 열기
     driver.get('https://www.google.co.kr/imghp?hl=ko&ogbl')
