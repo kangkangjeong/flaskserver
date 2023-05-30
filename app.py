@@ -1,10 +1,11 @@
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, send_file
 from flask_cors import CORS #다른 출처끼리의 자원 공유
 import cv2
 import os
 import numpy as np
 import subprocess
 import gptcrawling as gc
+import convertimage as cv
 
 app = Flask(__name__)
 CORS(app)
@@ -12,6 +13,16 @@ CORS(app)
 @app.route('/')
 def index():
     return render_template('index.html')
+
+@app.route('/output', methods=['GET'])
+def send_image():
+    image_path = 'convertimage/convert.jpg'
+    return send_file(image_path, mimetype='image/jpeg')
+
+@app.route('/convertimage',methods=['POST'])
+def cv_image_save():
+    cv.convert_image()
+
 
 @app.route('/gpt_recommend', methods=['POST'])
 def execute_gpt_crawling():

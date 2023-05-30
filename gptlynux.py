@@ -4,8 +4,7 @@ import json
 
 def get_chatgpt_msg(msg):
     # OpenAI API 인증을 위한 키 설정
-    openai.api_key = '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'
-
+    openai.api_key = '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'
     # ChatGPT 모델에 대한 요청 생성
     response = openai.Completion.create(
         engine='text-davinci-003',  # GPT 3.5 Turbo 엔진
@@ -27,14 +26,42 @@ def extract_recommendations(reply):
     from selenium.webdriver.chrome.service import Service
     from selenium.webdriver.common.by import By
     from selenium.webdriver.chrome.options import Options
+    from webdriver_manager.chrome import ChromeDriverManager
+    # from pyvirtualdisplay import Display
+    # import os
 
-    # chrome_driver_path = './installchrome/chromedriver'
-    # chrome_service = Service(executable_path=chrome_driver_path)
-    #웹창열지않고 실행
+    # Start Xvfb and set the DISPLAY variable
+    # os.system('Xvfb :99 -screen 0 1024x768x16 &')
+    # os.environ['DISPLAY'] = ':99'
+
+    # display = Display(visible=1, size=(1920, 1080))
+    # display.start()
+    from pyvirtualdisplay import Display #가상의 디스플레이설치
+
+    display = Display(visible=1, size=(1920, 1080))
+    display.start()
+
+
+    # Set Chrome options for headless mode
     chrome_options = Options()
     chrome_options.add_argument('--headless')
-    # Chrome WebDriver를 사용하여 웹 브라우저 열기
-    driver = webdriver.Chrome(options=chrome_options)
+    # chrome_options.add_argument("window-size=1400,1500")
+    # chrome_options.add_argument("--disable-gpu")
+    chrome_options.add_argument("--no-sandbox")
+    chrome_options.add_argument('--disable-dev-shm-usage')
+
+    # chrome_options.add_argument("--user-data-dir=/path/to/custom/userdata")
+    # chrome_options.add_argument("--user-data-dir=/path/to/custom/profile")
+
+
+
+    # Specify the path to the chromedriver executable
+    # chromedriver_path = '/usr/bin/chromedriver'
+
+    # Chrome WebDriver to open the web browser
+    driver = webdriver.Chrome(ChromeDriverManager().install(), options=chrome_options)
+
+
 
     # 구글 이미지 검색 페이지 열기
     driver.get('https://www.google.co.kr/imghp?hl=ko&ogbl')
@@ -57,6 +84,8 @@ def extract_recommendations(reply):
 
     # WebDriver 종료
     driver.quit()
+    display.stop()
+
     return image_link
 
 # def save_recommendations(image_link):
